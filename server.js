@@ -14,24 +14,26 @@ const squadreInfoFile = './json/squadre.json';
 app.use(express.static('public')); // serve file HTML e JS
 app.use(express.json()); // per gestire il JSON nel body delle richieste
 
+// Utility to read JSON file safely as array
+function getDataArray(fileName) {
+
+    if (fs.existsSync(fileName))
+        try { return JSON.parse(fs.readFileSync(fileName, 'utf8')); }
+        catch { return []; }
+}
+
+// Utility to read JSON file safely as object
+function getDataObject(fileName) {
+
+    if (fs.existsSync(fileName))
+        try { return JSON.parse(fs.readFileSync(fileName, 'utf8')); }
+        catch { return {}; }
+}
+
 app.get('/api/giocatori', async (req, res) => {
 
-    let venduti = [];
-    let giocatori = [];
-
-    // Read venduti.json
-    if (fs.existsSync(vendutiFile)) {
-        
-        try { venduti = JSON.parse(fs.readFileSync(vendutiFile, 'utf8')); }
-        catch { venduti = []; }
-    }
-
-    // Read listone.json
-    if (fs.existsSync(listoneFile)) {
-
-        try { giocatori = JSON.parse(fs.readFileSync(listoneFile, 'utf8')); }
-        catch { giocatori = []; }
-    }
+    let venduti = getDataArray(vendutiFile);
+    let giocatori = getDataArray(listoneFile);
 
     // Add sold status
     giocatori.forEach(g => {
@@ -47,13 +49,7 @@ app.get('/api/giocatori', async (req, res) => {
 
 app.get('/api/squadre', (req, res) => {
 
-    let venduti = [];
-
-    if (fs.existsSync(vendutiFile)) {
-
-        try { venduti = JSON.parse(fs.readFileSync(vendutiFile, 'utf8'));
-        } catch { venduti = []; }
-    }
+    let venduti = getDataArray(vendutiFile);
 
     // Group players by acquirente
     const teamsMap = {};
@@ -71,12 +67,7 @@ app.get('/api/squadre', (req, res) => {
 
 app.post('/api/venduti', (req, res) => {
 
-    let venduti = [];
-    if (fs.existsSync(vendutiFile)) {
-
-        try { venduti = JSON.parse(fs.readFileSync(vendutiFile, 'utf8')); }
-        catch { venduti = []; }
-    }
+    let venduti = getDataArray(vendutiFile);
 
     if (req.body) venduti.push(req.body);
     fs.writeFileSync(vendutiFile, JSON.stringify(venduti, null, 2));
@@ -91,33 +82,17 @@ app.post('/api/venduti', (req, res) => {
     res.json({ success: true });
 });
 
-app.get('/api/setup', (req, res) => {
-
-    let squadreInfo = {};
-
-    if (fs.existsSync(squadreInfoFile)) {
-
-        try { squadreInfo = JSON.parse(fs.readFileSync(squadreInfoFile, 'utf8')); }
-        catch { squadreInfo = {}; }
-    }
-
-    res.json(squadreInfo);
-});
+app.get('/api/setup', (req, res) => { res.json(getDataObject(squadreInfoFile)); });
 
 app.listen(PORT, () => { 
     
     console.log(`Server attivo su http://localhost:${PORT}`);
-    let squadreInfo = {};
-
-    if (fs.existsSync(squadreInfoFile)) {
-        
-        try { squadreInfo = JSON.parse(fs.readFileSync(squadreInfoFile, 'utf8')); }
-        catch { squadreInfo = {}; }
-    }
+    let squadreInfo = getDataObject(squadreInfoFile);
 
     const initLog = `Fantacalcio 2025/2026 - Gestione asta ${new Date().toISOString().slice(0,10)}`;
     const creditsLog = `Crediti per squadra: ${squadreInfo.initial_amount}`;
     const playersLog = `Numero di giocatori: ${squadreInfo.max_players}`;
+    
     let teamsLog = `Squadre: [\n`;
     if (Array.isArray(squadreInfo.teams))
         teamsLog += squadreInfo.teams.map(name => `  "${name}"`).join(',\n');
