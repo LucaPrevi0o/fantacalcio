@@ -1,0 +1,266 @@
+/* ===== TABLES ===== */
+table {
+    border-collapse: collapse;
+    width: 80%;
+}
+
+#teams-table { width: 100%; }
+
+th,
+td {
+    border: 1px solid #ccc;
+    padding: 5px;
+    text-align: center;
+}
+
+/* ===== LINKS ===== */
+a,
+a:visited {
+    color: #000;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #1976d2;
+}
+
+/* ===== PLAYER ROLE BOXES ===== */
+.role-box {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 8px;
+}
+
+.role-gk { background: #ffd600; color: #222; }
+.role-df { background: #009e60; }
+.role-mf { background: #1976d2; }
+.role-st { background: #d90429; }
+
+/* ===== CURRENT PLAYER BOX ===== */
+#current-player-box {
+    display: flex;
+    width: 80%;
+    min-height: 110px;
+    margin: 20px 0;
+    padding: 0;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    background: #f9f9f9;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+#current-player-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 60%;
+    padding: 18px 24px;
+}
+
+.asta-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40%;
+    background: #f3f3f3;
+    border-left: 2px solid #e0e0e0;
+}
+
+button {
+    display: inline-block;
+    width: 290px;
+    padding: 22px 0;
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+    background: #1976d2;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+    transition: background 0.2s, color 0.2s;
+}
+
+button:hover:enabled {
+    background: #145ea8;
+    box-shadow: 0 4px 16px rgba(25, 118, 210, 0.15);
+}
+
+button.yellow { background: #ffd600; color: #222; }
+button.yellow:hover:enabled { background: #ffc107; }
+button.red    { background: #d90429; }
+button.red:hover:enabled { background: #bd114a; }
+
+button:disabled {
+    background: #585858;
+    color: #fff;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.see-teams-button, .download-xlsx-button { margin: auto; }
+
+.giocatore-nome {
+    font-size: 1.7em;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 2px;
+}
+
+.giocatore-ruolo-team {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+.giocatore-prezzi {
+    display: flex;
+    gap: 18px;
+    margin-top: 16px;
+}
+
+.prezzo-box {
+    min-width: 120px;
+    padding: 10px 18px;
+    font-size: 1.1em;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.prezzo-label {
+    display: block;
+    font-size: 0.95em;
+    color: #666;
+    margin-bottom: 3px;
+}
+
+.prezzo-val {
+    font-weight: bold;
+    font-size: 1.15em;
+    color: #1976d2;
+}
+
+.sticky-header {
+    display: flex;
+    position: sticky;
+    background: #fff;
+    z-index: 100;
+    width: 80%;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.header-left label {
+    margin-right: 10px;
+    display: inline-block;
+    width: 110px;
+}
+
+.header-left input, .header-left select {
+    width: 150px;
+}
+
+.errore-dati {
+    font-size: 1.2em;
+    color: #d90429;
+    text-align: center;
+}
+
+.giocatore-attuale-label {
+    font-size: 0.7em;
+    color: #666;
+    font-weight: normal;
+}
+
+.giocatore-squadra {
+    color: #555;
+    padding-left: 36px;
+}
+
+.giocatore-non-trovato {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #636363;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.player-sold { background: #9c9c9c; font-weight: bold; }
+.giocatore-sold { pointer-events: none; opacity: 0.6; cursor: default; }
+
+.vendita-input-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin: 18px 0 8px;
+    align-items: center;
+}
+
+.buyer-input,
+.price-input {
+    font-size: 1em;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.buyer-input { width: 150px; }
+.price-input { width: 100px; }
+
+.giocatore-stats-box {
+    margin-top: 18px;
+    background: #e9e9e9;
+    border-radius: 8px;
+    padding: 12px 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.giocatore-stats-box h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.2em;
+    color: #1976d2;
+}
+
+.giocatore-stats-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.stat-box {
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(25, 118, 210, 0.08);
+    padding: 6px 12px;
+    min-width: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.stat-label {
+    font-size: 0.85em;
+    color: #555;
+}
+.stat-val {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #1976d2;
+}
