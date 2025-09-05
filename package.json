@@ -1,0 +1,41 @@
+{
+  "name": "fantacalcio-auction",
+  "version": "2.0.0",
+  "description": "Sistema di gestione asta per Fantacalcio 2025/26",
+  "main": "server/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint server/ public/js/",
+    "setup": "node scripts/setup.js",
+    "backup": "node scripts/backup.js"
+  },
+  "keywords": [
+    "fantacalcio",
+    "auction",
+    "soccer",
+    "fantasy-football"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "eslint": "^8.45.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/fantacalcio-auction.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/fantacalcio-auction/issues"
+  },
+  "homepage": "https://github.com/yourusername/fantacalcio-auction#readme"
+}

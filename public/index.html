@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asta Fantacalcio 2025/26</title>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components/notifications.css">
+    
+    <!-- External libraries -->
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    
+    <!-- Main application script as ES6 module -->
+    <script type="module" src="js/main.js"></script>
+</head>
+
+<body>
+    <div class="sticky-header">
+        <div class="header-left">
+            <h1 class="main-title">Fantacalcio 2025/26 - Gestione Asta</h1>
+            <span class="filter-group">
+                <label for="ruoloSelect" class="ruolo-label">Filtra per ruolo:</label>
+                <select id="ruoloSelect">
+                    <option value="">Tutti</option>
+                    <option value="p">Portiere</option>
+                    <option value="d">Difensore</option>
+                    <option value="c">Centrocampista</option>
+                    <option value="a">Attaccante</option>
+                </select>
+            </span>
+            <span class="filter-group">
+                <label for="searchInput" class="search-label">Cerca giocatore:</label>
+                <input type="text" id="searchInput" class="search-input" placeholder="Nome giocatore">
+            </span>
+        </div>
+        <div class="header-controls">
+            <button id="vediSquadreBtn" class="see-teams-button">Vedi squadre</button>
+            <button id="download-xlsx-btn" class="download-xlsx-button" style="display:none">Scarica Excel</button>
+        </div>
+    </div>
+
+    <div id="current-player-box">
+        <span id="current-player-info"></span>
+        <div class="asta-box">
+            <div class="asta-box-inner">
+                <button id="btnAsta" class="asta-button" title="Premi SPAZIO per avviare l'asta">
+                    Seleziona un giocatore
+                </button>
+                <!-- Sale inputs will be added here dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <div class="help-text">
+        <p>
+            <strong>Scorciatoie da tastiera:</strong>
+            <kbd>Spazio</kbd> - Avvia asta | 
+            <kbd>Esc</kbd> - Annulla asta | 
+            <kbd>Ctrl+F</kbd> - Cerca giocatore
+        </p>
+    </div>
+
+    <table id="giocatori-table">
+        <thead>
+            <tr>
+                <th>Ruolo</th>
+                <th>Nome</th>
+                <th>Squadra</th>
+                <th>Quotazione iniziale</th>
+                <th>Quotazione attuale</th>
+                <th>FVM</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="6" class="loading-message">
+                    Caricamento giocatori...
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Debug panel (only visible in development) -->
+    <div id="debug-panel" class="debug-panel" style="display: none;">
+        <h4>Debug Panel</h4>
+        <button onclick="window.fantacalcioApp?.resetApp()">Reset App</button>
+        <button onclick="window.fantacalcioApp?.exportState()">Export State</button>
+        <button onclick="console.log(window.fantacalcioApp?.getManagers())">Log Managers</button>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,723 @@
+/* public/css/style.css - Updated main stylesheet */
+
+/* ===== RESET & BASE STYLES ===== */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: #fafafa;
+    color: #333;
+    line-height: 1.5;
+}
+
+/* ===== LAYOUT ===== */
+.sticky-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 100;
+    width: 80%;
+    padding: 16px 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+    border-radius: 0 0 8px 8px;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.header-controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.main-title {
+    margin: 0 0 8px 0;
+    color: #1976d2;
+    font-size: 1.8em;
+    font-weight: 600;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-group label {
+    min-width: 110px;
+    font-weight: 500;
+    color: #555;
+}
+
+.filter-group input,
+.filter-group select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    min-width: 150px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.filter-group input:focus,
+.filter-group select:focus {
+    outline: none;
+    border-color: #1976d2;
+    box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
+}
+
+/* ===== TABLES ===== */
+table {
+    border-collapse: collapse;
+    width: 80%;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+}
+
+#teams-table { 
+    width: 100%; 
+}
+
+th,
+td {
+    border: 1px solid #e0e0e0;
+    padding: 12px 8px;
+    text-align: center;
+    font-size: 14px;
+}
+
+th {
+    background: #f5f5f5;
+    font-weight: 600;
+    color: #333;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+tbody tr:hover {
+    background: #f8f9fa;
+}
+
+.loading-message {
+    padding: 40px;
+    color: #666;
+    font-style: italic;
+}
+
+/* ===== LINKS & BUTTONS ===== */
+a,
+a:visited {
+    color: #1976d2;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover {
+    color: #1565c0;
+    text-decoration: underline;
+}
+
+button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    color: #fff;
+    background: #1976d2;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(25, 118, 210, 0.2);
+    min-height: 44px;
+}
+
+button:hover:enabled {
+    background: #1565c0;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+}
+
+button:active:enabled {
+    transform: translateY(0);
+}
+
+button:disabled {
+    background: #bdbdbd;
+    color: #fff;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* ===== AUCTION SPECIFIC STYLES ===== */
+.asta-button {
+    min-width: 280px;
+    padding: 22px 32px;
+    font-size: 1.8em;
+    font-weight: bold;
+    border-radius: 12px;
+}
+
+.asta-button.yellow { 
+    background: #ffd600; 
+    color: #222; 
+    box-shadow: 0 4px 12px rgba(255, 214, 0, 0.4);
+}
+
+.asta-button.yellow:hover:enabled { 
+    background: #ffc107; 
+}
+
+.asta-button.red { 
+    background: #d90429; 
+    box-shadow: 0 4px 12px rgba(217, 4, 41, 0.4);
+}
+
+.asta-button.red:hover:enabled { 
+    background: #c4032a; 
+}
+
+/* ===== PLAYER ROLE BOXES ===== */
+.role-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 50%;
+    text-transform: uppercase;
+}
+
+.role-gk { background: linear-gradient(135deg, #ffd600, #ffed4e); color: #222; }
+.role-df { background: linear-gradient(135deg, #009e60, #00c471); }
+.role-mf { background: linear-gradient(135deg, #1976d2, #42a5f5); }
+.role-st { background: linear-gradient(135deg, #d90429, #f44336); }
+
+/* ===== CURRENT PLAYER BOX ===== */
+#current-player-box {
+    display: flex;
+    width: 80%;
+    min-height: 140px;
+    margin: 20px 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+#current-player-info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 60%;
+    padding: 24px;
+}
+
+.asta-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40%;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-left: 2px solid #e0e0e0;
+}
+
+.asta-box-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.asta-box-inner.asta-ended {
+    align-items: stretch;
+}
+
+/* Player info styles */
+.giocatore-nome {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 4px;
+}
+
+.giocatore-attuale-label {
+    font-size: 0.7em;
+    color: #666;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.giocatore-ruolo-team {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+.giocatore-squadra {
+    color: #666;
+    margin-left: auto;
+    font-style: italic;
+}
+
+.giocatore-prezzi {
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.prezzo-box {
+    background: linear-gradient(135deg, #fff, #f8f9fa);
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px 16px;
+    text-align: center;
+    min-width: 100px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.prezzo-label {
+    display: block;
+    font-size: 0.85em;
+    color: #666;
+    margin-bottom: 4px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.prezzo-val {
+    font-weight: 700;
+    font-size: 1.3em;
+    color: #1976d2;
+}
+
+.giocatore-non-trovato {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4em;
+    color: #bdbdbd;
+    font-style: italic;
+    text-align: center;
+    height: 100%;
+}
+
+/* ===== PLAYER STATS ===== */
+.giocatore-stats-box {
+    margin-top: 20px;
+    background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+    border-radius: 10px;
+    padding: 16px 20px;
+    border: 1px solid #e1bee7;
+}
+
+.giocatore-stats-box h3 {
+    margin: 0 0 12px 0;
+    font-size: 1.1em;
+    color: #1976d2;
+    font-weight: 600;
+}
+
+.giocatore-stats-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.stat-box {
+    background: white;
+    border-radius: 6px;
+    padding: 8px 12px;
+    min-width: 80px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    min-width: calc(50% - 6px);
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.8em;
+    color: #666;
+    margin-bottom: 2px;
+    font-weight: 500;
+}
+
+.stat-val {
+    font-weight: 700;
+    font-size: 1em;
+    color: #1976d2;
+}
+
+/* ===== SALE INPUTS ===== */
+.vendita-input-container {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.buyer-input,
+.price-input {
+    padding: 10px 14px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.buyer-input {
+    flex: 1;
+    min-width: 140px;
+}
+
+.price-input {
+    width: 100px;
+}
+
+.buyer-input:focus,
+.price-input:focus {
+    outline: none;
+    border-color: #1976d2;
+    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+}
+
+/* ===== SOLD PLAYERS ===== */
+.player-sold { 
+    background: #f5f5f5; 
+    color: #888;
+}
+
+.player-sold .role-box {
+    opacity: 0.6;
+}
+
+.giocatore-sold { 
+    pointer-events: none; 
+    opacity: 0.7; 
+    cursor: default;
+    text-decoration: line-through;
+}
+
+/* ===== HELP TEXT ===== */
+.help-text {
+    width: 80%;
+    background: #e8f5e8;
+    border: 1px solid #c8e6c9;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 14px;
+    color: #2e7d32;
+}
+
+.help-text p {
+    margin: 0;
+}
+
+kbd {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-family: monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* ===== DEBUG PANEL ===== */
+.debug-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    z-index: 999;
+}
+
+.debug-panel h4 {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+}
+
+.debug-panel button {
+    display: block;
+    width: 100%;
+    margin: 4px 0;
+    padding: 6px 12px;
+    font-size: 11px;
+    background: #333;
+    border: 1px solid #555;
+}
+
+.debug-panel button:hover {
+    background: #444;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1200px) {
+    .sticky-header,
+    #current-player-box,
+    table {
+        width: 95%;
+    }
+    
+    .help-text {
+        width: 95%;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .sticky-header {
+        flex-direction: column;
+        gap: 16px;
+        align-items: stretch;
+    }
+
+    .header-controls {
+        justify-content: center;
+    }
+
+    .main-title {
+        font-size: 1.4em;
+        text-align: center;
+    }
+
+    #current-player-box {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    #current-player-info {
+        width: 100%;
+    }
+
+    .asta-box {
+        width: 100%;
+        padding: 20px;
+        border-left: none;
+        border-top: 2px solid #e0e0e0;
+    }
+
+    .giocatore-prezzi {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .prezzo-box {
+        flex: 1;
+        min-width: calc(50% - 4px);
+    }
+
+    .giocatore-stats-row {
+        flex-direction: column;
+    }
+
+    .stat-box {
+        min-width: auto;
+    }
+
+    .filter-group {
+        flex-wrap: wrap;
+    }
+
+    .filter-group label {
+        min-width: auto;
+        width: 100%;
+        text-align: left;
+    }
+
+    .filter-group input,
+    .filter-group select {
+        width: 100%;
+        min-width: auto;
+    }
+
+    .asta-button {
+        min-width: auto;
+        width: 100%;
+        padding: 18px 24px;
+        font-size: 1.4em;
+    }
+
+    .vendita-input-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .buyer-input,
+    .price-input {
+        width: 100%;
+        min-width: auto;
+    }
+
+    .help-text {
+        font-size: 12px;
+    }
+
+    kbd {
+        font-size: 10px;
+        padding: 1px 4px;
+    }
+
+    /* Table scrolling on mobile */
+    .table-container {
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 600px;
+    }
+}
+
+@media (max-width: 480px) {
+    .giocatore-nome {
+        font-size: 1.4em;
+    }
+
+    .giocatore-ruolo-team {
+        font-size: 1em;
+    }
+
+    .prezzo-val {
+        font-size: 1.1em;
+    }
+
+    .asta-button {
+        font-size: 1.2em;
+        padding: 16px 20px;
+    }
+
+    th, td {
+        padding: 8px 4px;
+        font-size: 12px;
+    }
+}
+
+/* ===== UTILITY CLASSES ===== */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+
+.m-0 { margin: 0; }
+.mt-1 { margin-top: 8px; }
+.mt-2 { margin-top: 16px; }
+.mb-1 { margin-bottom: 8px; }
+.mb-2 { margin-bottom: 16px; }
+
+.p-0 { padding: 0; }
+.p-1 { padding: 8px; }
+.p-2 { padding: 16px; }
+
+.hidden { display: none; }
+.visible { display: block; }
+
+.font-bold { font-weight: 700; }
+.font-normal { font-weight: 400; }
+
+.text-primary { color: #1976d2; }
+.text-success { color: #4caf50; }
+.text-error { color: #f44336; }
+.text-warning { color: #ff9800; }
+.text-muted { color: #666; }
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.slide-in {
+    animation: slideIn 0.3s ease-out;
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    body {
+        background: white;
+        color: black;
+        padding: 0;
+    }
+
+    .sticky-header {
+        position: static;
+        box-shadow: none;
+        border-bottom: 2px solid #000;
+    }
+
+    .asta-box,
+    .help-text,
+    .debug-panel,
+    .notification-container {
+        display: none !important;
+    }
+
+    #current-player-box {
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+
+    table {
+        box-shadow: none;
+        border: 2px solid #000;
+    }
+
+    button {
+        display: none;
+    }
+}
