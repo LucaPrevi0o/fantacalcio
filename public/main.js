@@ -11,6 +11,25 @@ let maxCredits = 0;
 let numPlayers = 0;
 let teams = [];
 
+// Submit on ENTER in either input
+function submitVenduto(buyerSelect, priceInput) {
+
+    if (buyerSelect.value && priceInput.value.trim() !== '') {
+
+        const playerData = {
+            ...currentPlayer,
+            acquirente: buyerSelect.value,
+            prezzo_pagato: priceInput.value.trim()
+        };
+        fetch('/api/venduti', {
+
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(playerData)
+        }).then(() => { window.location.reload(); });
+    }
+}
+
 btnAsta.addEventListener('click', function () {
 
     // Always restart the timer on click
@@ -27,16 +46,16 @@ btnAsta.addEventListener('click', function () {
     document.getElementById('ruoloSelect').disabled = true;
     document.getElementById('searchInput').disabled = true;
 
+    // Set up the interval to count down every second
     astaInterval = setInterval(() => {
 
-        astaTimeLeft--;
+        astaTimeLeft--; // Decrement time left
 
         // Color changes
         if (astaTimeLeft <= 4 && astaTimeLeft > 2) {
 
             beepFreq = 880; // Change frequency to 880Hz
             btnAsta.classList.add('yellow');
-            btnAsta.classList.remove('red');
         } else if (astaTimeLeft <= 2 && astaTimeLeft > 0) {
 
             beepFreq = 1320; // Change frequency to 1320Hz
@@ -49,23 +68,15 @@ btnAsta.addEventListener('click', function () {
             btnAsta.classList.remove('yellow', 'red');
             btnAsta.disabled = true;
 
-            // Move button up and show inputs below
             const astaBoxInner = btnAsta.parentNode;
             astaBoxInner.classList.add('asta-ended');
 
             let inputContainer = document.createElement('div');
             inputContainer.className = 'vendita-input-container';
 
-            // Fetch team names from the teams table if available
-            let teamNames = [];
-            const teamsTable = document.getElementById('teams-table');
-            if (teamsTable) {
-                const ths = teamsTable.querySelectorAll('thead tr:first-child th');
-                teamNames = Array.from(ths).map(th => th.textContent.trim()).filter(Boolean);
-            } else {
-                // fallback: use generic names
+            let teamNames = (teams || []).filter(t => t && t.trim() !== '');
+            if (teamNames.length === 0) 
                 teamNames = Array.from({ length: 12 }, (_, i) => `Squadra ${i + 1}`);
-            }
 
             let buyerSelect = document.createElement('select');
             buyerSelect.className = 'buyer-input';
@@ -81,34 +92,13 @@ btnAsta.addEventListener('click', function () {
 
             inputContainer.appendChild(buyerSelect);
             inputContainer.appendChild(priceInput);
-
-            // Insert the container below the button
             astaBoxInner.appendChild(inputContainer);
-            buyerSelect.focus();
-
-            // Submit on ENTER in either input
-            function submitVenduto() {
-                if (buyerSelect.value && priceInput.value.trim() !== '') {
-                    const playerData = {
-                        ...currentPlayer,
-                        acquirente: buyerSelect.value,
-                        prezzo_pagato: priceInput.value.trim()
-                    };
-                    fetch('/api/venduti', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(playerData)
-                    }).then(() => {
-                        window.location.reload();
-                    });
-                }
-            }
 
             buyerSelect.addEventListener('keydown', function (e) {
-                if (e.key === 'Enter') submitVenduto();
+                if (e.key === 'Enter') submitVenduto(buyerSelect, priceInput);
             });
             priceInput.addEventListener('keydown', function (e) {
-                if (e.key === 'Enter') submitVenduto();
+                if (e.key === 'Enter') submitVenduto(buyerSelect, priceInput);
             });
 
             return;
@@ -118,55 +108,36 @@ btnAsta.addEventListener('click', function () {
     }, 1000);
 });
 
+// Beep sound function
 function playBeep(frequency) {
+
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
     const oscillator = ctx.createOscillator();
     oscillator.type = 'square';
-    oscillator.frequency.value = frequency || 1000; // Hz
+    oscillator.frequency.value = frequency || 1000;
     oscillator.connect(ctx.destination);
     oscillator.start();
     setTimeout(() => {
+
         oscillator.stop();
         ctx.close();
     }, 80); // 80ms beep
 }
 
+// Get role info based on ruolo code
 function getRoleInfo(ruolo) {
 
     switch (ruolo) {
-        case 'p':
-            return {
-                cls: 'role-gk',
-                letter: 'P',
-                label: 'Portiere'
-            };
-        case 'd':
-            return {
-                cls: 'role-df',
-                letter: 'D',
-                label: 'Difensore'
-            };
-        case 'c':
-            return {
-                cls: 'role-mf',
-                letter: 'C',
-                label: 'Centrocampista'
-            };
-        case 'a':
-            return {
-                cls: 'role-st',
-                letter: 'A',
-                label: 'Attaccante'
-            };
-        default:
-            return {
-                cls: '',
-                letter: ruolo,
-                label: ruolo
-            };
+
+        case 'p': return { cls: 'role-gk', letter: 'P', label: 'Portiere' };
+        case 'd': return { cls: 'role-df', letter: 'D', label: 'Difensore' };
+        case 'c': return { cls: 'role-mf', letter: 'C', label: 'Centrocampista' };
+        case 'a': return { cls: 'role-st', letter: 'A', label: 'Attaccante' };
+        default: return { cls: '', letter: '', label: '' };
     }
 }
 
+// Load giocatori data from server
 async function caricaGiocatori() {
 
     // Show loading message in the button
@@ -178,6 +149,7 @@ async function caricaGiocatori() {
 
     try {
 
+        // Fetch giocatori.json data
         const res = await fetch('/api/giocatori');
         giocatori = await res.json();
         btnAsta.textContent = 'Inizia asta';
