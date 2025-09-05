@@ -103,7 +103,7 @@ class TeamsManager {
         // Second row: credits and max price
         const trCredits = document.createElement('tr');
         this.teams.forEach(teamName => {
-            const td = this.createCreditsCell(teamName, teamsArray);
+            const td = this.createCreditsCell(teamName, []);
             trCredits.appendChild(td);
         });
         thead.appendChild(trCredits);
